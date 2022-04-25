@@ -12,7 +12,7 @@ Perguntar se o Jogador quer jogar novamente: Se sim volte ao primeiro passo, se 
 const prompt = require("prompt-sync");
 
 const teclado = prompt();
-const jokenpo = ["0", "tesoura", "pedra", "papel"];
+const jokenpo = ["", "tesoura", "pedra", "papel"];
 let random = () => jokenpo[Math.floor(Math.random() * 3) + 1];
 let usuario = "";
 let fim = "";
@@ -23,13 +23,13 @@ let vitoria = {
 };
 let jogada = 0;
 
-do {
+while (fim !== "nao") {
   const rodadas = +teclado("Quantas rodadas irá jogar?     ");
   for (let i = 0; i < rodadas; i++) {
-    let jogada = +teclado(
-      "Aperte 1 para tesoura, 2 para pedra, 3 para papel:    "
-    );
     do {
+      jogada = +teclado(
+        "Aperte 1 para tesoura, 2 para pedra, 3 para papel:    "
+      );
       if (jogada === 1) {
         usuario = jokenpo[jogada];
       } else if (jogada === 2) {
@@ -38,9 +38,6 @@ do {
         usuario = jokenpo[jogada];
       } else {
         console.log("Utilize somente os numeros sugeridos");
-        jogada = +teclado(
-          "Aperte 1 para tesoura, 2 para pedra, 3 para papel:    "
-        );
       }
     } while (jogada !== 1 && jogada !== 2 && jogada !== 3);
     let computador = random();
@@ -77,7 +74,19 @@ do {
     console.log("Empate. Ninguem ganhou");
   }
   console.table(vitoria);
-  fim = teclado(
-    "Você deseja continuar jogando, digite 'nao' para sair, :    "
-  ).toLowerCase();
-} while (fim !== "nao");
+  console.log();
+
+  fim = "";
+  while (fim !== "sim" && fim !== "nao") {
+    fim = teclado(
+      "Você deseja continuar jogando? digite 'nao' para sair e 'sim' para ficar:    "
+    ).toLowerCase();
+    if (fim === "sim") {
+      console.log("Continuaremos jogando");
+    } else if (fim === "nao") {
+      console.log("Até mais");
+    } else {
+      console.log("digite somente 'sim' ou 'nao'");
+    }
+  }
+}
